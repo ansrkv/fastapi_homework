@@ -11,4 +11,4 @@ class Seller(BaseModel):
     last_name: Mapped[str] = mapped_column()
     email:Mapped[str] = mapped_column()
     password:Mapped[str] = mapped_column()
-    books = relationship("Book", back_populates="seller")
+    books = relationship("Book", back_populates="seller", lazy = 'selectin')
