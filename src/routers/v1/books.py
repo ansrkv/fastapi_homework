@@ -4,13 +4,12 @@ from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from configurations.database import get_async_session
-from models.books import Book
-from schemas import IncomingBook, ReturnedAllBooks, ReturnedBook
+from src.configurations.database import get_async_session
+from src.models.books import Book
+from src.schemas import IncomingBook, ReturnedAllBooks, ReturnedBook
 
 books_router = APIRouter(tags=["books"], prefix="/books")
 
-# Больше не симулируем хранилище данных. Подключаемся к реальному, через сессию.
 DBSession = Annotated[AsyncSession, Depends(get_async_session)]
 
 
@@ -47,15 +46,14 @@ async def get_all_books(session: DBSession):
 # Ручка для получения книги по ее ИД
 @books_router.get("/{book_id}", response_model=ReturnedBook)
 async def get_book(book_id: int, session: DBSession):
-    res = await session.get(Book, book_id)
-    return res
+        res = await session.get(Book, book_id)
+        return res
 
 
 # Ручка для удаления книги
 @books_router.delete("/{book_id}")
 async def delete_book(book_id: int, session: DBSession):
     deleted_book = await session.get(Book, book_id)
-    ic(deleted_book)  # Красивая и информативная замена для print. Полезна при отладке.
     if deleted_book:
         await session.delete(deleted_book)
 
@@ -70,7 +68,8 @@ async def update_book(book_id: int, new_data: ReturnedBook, session: DBSession):
         updated_book.author = new_data.author
         updated_book.title = new_data.title
         updated_book.year = new_data.year
-        updated_book.count_pages = new_data.count_pages
+        updated_book.pages = new_data.pages
+        updated_book.seller_id = new_data.seller_id
 
         await session.flush()
 
