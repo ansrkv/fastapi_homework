@@ -5,9 +5,11 @@ from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from configurations.database import get_async_session
-from models.sellers import Seller
-from schemas.sellers import IncomingSeller, ReturnedAllSellers, ReturnedSeller
+from src.configurations.database import get_async_session
+from src.models.sellers import Seller
+from src.schemas.sellers import IncomingSeller, ReturnedAllSellers, ReturnedSeller, SellerBase
+
+
 
 sellers_router = APIRouter(tags=["sellers"], prefix="/sellers")
 
@@ -15,7 +17,7 @@ sellers_router = APIRouter(tags=["sellers"], prefix="/sellers")
 DBSession = Annotated[AsyncSession, Depends(get_async_session)]
 
 
-@sellers_router.post("/",  status_code=status.HTTP_201_CREATED)
+@sellers_router.post("/")
 async def create_seller(
     seller: IncomingSeller, session: DBSession
 ):
@@ -28,7 +30,7 @@ async def create_seller(
     session.add(new_seller)
     await session.flush()
 
-    return 0
+    return Response(status_code=status.HTTP_201_CREATED)
 
 
 @sellers_router.get("/", response_model=ReturnedAllSellers)
@@ -54,15 +56,15 @@ async def delete_seller(seller_id: int, session: DBSession):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-@sellers_router.put("/{seller_id}")
-async def update_seller(seller_id: int, new_data: ReturnedSeller, session: DBSession):
-    if updated_seller := await session.get(Seller, seller_id):
-        updated_seller.first_name = new_data.first_name
-        updated_seller.last_name = new_data.last_name
-        updated_seller.email = new_data.email
+@sellers_router.put("/{seller_id}", response_model=ReturnedSeller)
+async def update_seller(seller_id: int, new_data: SellerBase, session: DBSession):
+    if seller := await session.get(Seller, seller_id):
+        seller.first_name = new_data.first_name
+        seller.last_name = new_data.last_name
+        seller.email = new_data.email
 
         await session.flush()
 
-        return updated_seller
+        return seller
 
     return Response(status_code=status.HTTP_404_NOT_FOUND)
