@@ -3,10 +3,10 @@ from typing import AsyncGenerator, Callable, Optional
 
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
 
-from models.base import BaseModel
-from models.books import Book  # noqa F401
-from models.sellers import Seller # noqa F401
-
+from src.models.base import BaseModel
+from src.models.books import Book  # noqa F401
+from src.models.sellers import Seller # noqa F401
+from src.configurations.settings import settings
 
 
 logger = logging.getLogger("__name__")
@@ -17,7 +17,7 @@ __all__ = ["global_init", "get_async_session", "create_db_and_tables", "delete_d
 __async_engine: Optional[AsyncEngine] = None
 __session_factory: Optional[Callable[[], AsyncSession]] = None
 
-SQLALCHEMY_DATABASE_URL = "postgresql+asyncpg://postgres:postgres@127.0.0.1:5445/db"
+SQLALCHEMY_DATABASE_URL = settings.database_url
 def global_init() -> None:
     global __async_engine, __session_factory
 
