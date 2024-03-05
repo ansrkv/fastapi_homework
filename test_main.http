@@ -1,0 +1,74 @@
+###Запись данных продавца
+POST http://localhost:8000/api/v1/sellers/
+Content-Type: application/json
+
+{
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "cooladdress@gmail.com",
+  "password": "qwerty"
+}
+
+
+###Изменение данных продавца
+PUT http://localhost:8000/api/v1/sellers/1
+content-type: application/json
+
+{
+    "first_name": "Jane",
+    "last_name": "Martin",
+    "email": "newcooladdress@gmail.com"
+}
+
+
+###Получение данных обо всех продавцах
+GET http://localhost:8000/api/v1/sellers/
+Accept: application/json
+
+###Получение данных об одном продавце
+GET http://localhost:8000/api/v1/sellers/2
+Accept: application/json
+
+###Удаление продавца
+DELETE http://localhost:8000/api/v1/sellers/1
+Accept: application/json
+
+
+###Создание книги
+POST http://localhost:8000/api/v1/books/
+content-type: application/json
+
+{
+    "title": "Clean Code",
+    "author": "Robert Martin",
+    "pages": 105,
+    "year": 2007,
+    "seller_id": 1
+}
+
+###Изменение книги
+PUT http://localhost:8000/api/v1/books/1
+content-type: application/json
+
+{
+  "title": "Wrong Code",
+  "author": "Robert Martin",
+  "pages": "2000",
+  "year": 2020,
+  "seller_id": 1,
+  "id":1
+}
+
+
+###Получение данных об одной книге
+GET http://127.0.0.1:8000/api/v1/books/1
+Accept: application/json
+
+###Получение данных обо всех книгах
+GET http://127.0.0.1:8000/api/v1/books/
+Accept: application/json
+
+
+###Удаление книги
+DELETE http://127.0.0.1:8000/api/v1/books/1
+Accept: application/json
