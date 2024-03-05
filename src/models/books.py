@@ -12,4 +12,4 @@ class Book(BaseModel):
     year: Mapped[int] = mapped_column()
     pages: Mapped[int] = mapped_column()
     seller_id= mapped_column(Integer, ForeignKey("sellers.id"))
-    seller = relationship("Seller", back_populates="books")
+    seller = relationship("Seller", back_populates="books",single_parent=True)
