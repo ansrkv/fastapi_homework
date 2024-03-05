@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from src.schemas.books import ReturnedBook
 
 class SellerBase(BaseModel):
     first_name :str
@@ -10,6 +11,7 @@ class IncomingSeller(SellerBase):
 
 class ReturnedSeller(SellerBase):
     id:int
+    books:list[ReturnedBook]
 
 class ReturnedAllSellers(BaseModel):
     sellers:list[ReturnedSeller]
