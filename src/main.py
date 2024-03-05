@@ -22,7 +22,7 @@ async def lifespan(app: FastAPI):  # Рекомендуется теперь в�
 def create_application():
     return FastAPI(
         title="Book Library App",
-        description="Учебное приложение для группы MTS Shad",
+        description="Домашняя работа по fastapi",
         version="0.0.1",
         responses={404: {"description": "Not Found!"}},
         default_response_class=ORJSONResponse,  # Подключаем быстрый сериализатор,
