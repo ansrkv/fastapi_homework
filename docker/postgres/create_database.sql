@@ -1,5 +1,5 @@
-CREATE DATABASE homework_fastapi_db;
+CREATE DATABASE db;
 
 
-GRANT ALL PRIVILEGES ON DATABASE homework_fastapi_db to "postgres";
+GRANT ALL PRIVILEGES ON DATABASE db to "postgres";
 
